@@ -12,10 +12,15 @@ Markov chains have many applications as statistical models of real-world process
 """
 
 class MarkovGeneratorTestCase(unittest.TestCase):
+	def setUp(self):
+		self.generator = MarkovGenerator()
+		self.generator.build_chain(test_text)
+
 	def test_generating_transition_map(self):
-		generator = MarkovGenerator()
-		generator.build_chain(test_text)
-		self.assertNotEqual(0, len(generator.transition_map))
+		self.assertNotEqual(0, len(self.generator.transition_map))
+
+	def test_generating_bigram_counts(self):
+		self.assertNotEqual(0, len(self.generator.bigram_counts))
 
 if __name__ == '__main__':
 	unittest.main()
