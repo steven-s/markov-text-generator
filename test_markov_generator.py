@@ -17,15 +17,15 @@ class MarkovGeneratorTestCase(unittest.TestCase):
 		self.generator.ingest_text(test_text)
 
 	def test_generating_transition_map(self):
-		self.assertNotEqual(0, len(self.generator.transition_map))
-		((word1, word2), transitions) = list(self.generator.transition_map.items())[0]
-		for ((word, follows), count) in list(transitions.items()):
-			self.assertEqual(word2, word)
+		self.assertNotEqual(0, len(self.generator._transition_map))
+		(gram, transitions) = list(self.generator._transition_map.items())[0]
+		for (following_gram, count) in list(transitions.items()):
+			self.assertEqual(gram[-1], following_gram[1])
 			self.assertTrue(count > 0)
 
 	def test_generating_bigram_counts(self):
-		self.assertNotEqual(0, len(self.generator.bigram_counts))
-		for (gram, count) in list(self.generator.bigram_counts.items()):
+		self.assertNotEqual(0, len(self.generator._gram_counts))
+		for (gram, count) in list(self.generator._gram_counts.items()):
 			self.assertTrue(count > 0)
 
 	def test_generating_string(self):

@@ -1,35 +1,39 @@
-from nltk import bigrams
+from nltk import ngrams
 from collections import defaultdict, Counter
 from random import choice
+import string, unicodedata, sys
 
 class MarkovGenerator(object):
-	def __init__(self):
-		self.transition_map = defaultdict(Counter)
-		self.bigram_counts = Counter()
+	def __init__(self, order=2):
+		self._order = order
+		self._transition_map = defaultdict(Counter)
+		self._gram_counts = Counter()
+		self._punctuation_table = dict.fromkeys(i for i in range(sys.maxunicode) if unicodedata.category(chr(i)).startswith('P'))
 
 	def ingest_text(self, text):
-		text_bigrams = bigrams(text.split())
+		clean_text = text.translate(self._punctuation_table).lower()
+		text_bigrams = ngrams(clean_text.split(), self._order)
 
 		previous_gram = None
 		for gram in text_bigrams:
 			if previous_gram:
-				self.transition_map[previous_gram][gram] += 1
-			if gram not in self.transition_map:
-				self.transition_map[gram] = Counter()
-			self.bigram_counts[gram] += 1
+				self._transition_map[previous_gram][gram] += 1
+			if gram not in self._transition_map:
+				self._transition_map[gram] = Counter()
+			self._gram_counts[gram] += 1
 
-	def generate_string(self, length=14):
+	def generate_string(self, length=14, use_weighted_transition=False):
 		sentence = []
-		start_point = choice(list(self.transition_map.items()))
+		start_point = choice(list(self._transition_map.items()))
 		while len(sentence) < length:
-			((word1, word2), transitions) = start_point
-			sentence.append(word1)
-			sentence.append(word2)
-			if (len(transitions) > 0):
+			(gram, transitions) = start_point
+			for word in gram:
+				sentence.append(word)
+			if (len(transitions) > 0) and use_weighted_transition:
 				weighted_transitions = [gram for gram, count in transitions for i in range(count)]
 				start_point = choice(weighted_transitions)
 			else:
-				start_point = choice(list(self.transition_map.items()))
+				start_point = choice(list(self._transition_map.items()))
 		return ' '.join(sentence[:length])
 
 
