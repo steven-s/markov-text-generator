@@ -14,13 +14,24 @@ Markov chains have many applications as statistical models of real-world process
 class MarkovGeneratorTestCase(unittest.TestCase):
 	def setUp(self):
 		self.generator = MarkovGenerator()
-		self.generator.build_chain(test_text)
+		self.generator.ingest_text(test_text)
 
 	def test_generating_transition_map(self):
 		self.assertNotEqual(0, len(self.generator.transition_map))
+		((word1, word2), transitions) = list(self.generator.transition_map.items())[0]
+		for ((word, follows), count) in list(transitions.items()):
+			self.assertEqual(word2, word)
+			self.assertTrue(count > 0)
 
 	def test_generating_bigram_counts(self):
 		self.assertNotEqual(0, len(self.generator.bigram_counts))
+		for (gram, count) in list(self.generator.bigram_counts.items()):
+			self.assertTrue(count > 0)
+
+	def test_generating_string(self):
+		test_string = self.generator.generate_string()
+		self.assertIsNotNone(test_string)
+		self.assertEqual(14, len(test_string.split()))
 
 if __name__ == '__main__':
 	unittest.main()
