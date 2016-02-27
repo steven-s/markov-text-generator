@@ -29,9 +29,9 @@ class MarkovGeneratorTestCase(unittest.TestCase):
 			self.assertTrue(count > 0)
 
 	def test_generating_string(self):
-		test_string = self.generator.generate_string()
+		test_string = self.generator.generate_string(20)
 		self.assertIsNotNone(test_string)
-		self.assertEqual(14, len(test_string.split()))
+		self.assertEqual(20, len(test_string.split()))
 
 if __name__ == '__main__':
 	unittest.main()
