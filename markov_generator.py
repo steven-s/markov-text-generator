@@ -29,9 +29,12 @@ class MarkovGenerator(object):
 			(gram, transitions) = start_point
 			for word in gram:
 				sentence.append(word)
-			if (len(transitions) > 0) and use_weighted_transition:
-				weighted_transitions = [gram for gram, count in transitions for i in range(count)]
-				start_point = choice(weighted_transitions)
+			if (len(transitions) > 0):
+				if use_weighted_transition:
+					weighted_transitions = [gram for gram, count in transitions for i in range(count)]
+					start_point = choice(weighted_transitions)
+				else:
+					start_point = choice([gram for gram, count in transitions])
 			else:
 				start_point = choice(list(self._transition_map.items()))
 		return ' '.join(sentence[:length])

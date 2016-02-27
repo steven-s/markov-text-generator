@@ -26,6 +26,6 @@ with open(args.source_text_location, 'r') as source_file:
 	generator.ingest_text(source_text)
 
 if args.verbose: print ("generating string")
-chain_sentence = generator.generate_string(args.output_length)
+chain_sentence = generator.generate_string(args.output_length, True)
 
 print(chain_sentence)
