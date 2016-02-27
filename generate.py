@@ -19,7 +19,7 @@ if args.verbose:
 
 if args.verbose: print("building model")
 
-generator = MarkovGenerator(3)
+generator = MarkovGenerator()
 
 with open(args.source_text_location, 'r') as source_file:
 	source_text = source_file.read()

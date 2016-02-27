@@ -12,7 +12,8 @@ Markov chains have many applications as statistical models of real-world process
 """
 
 class MarkovGeneratorTestCase(unittest.TestCase):
-	def setUp(self):
+	@classmethod
+	def setUpClass(self):
 		self.generator = MarkovGenerator()
 		self.generator.ingest_text(test_text)
 

@@ -1,18 +1,17 @@
-from nltk import ngrams
+from nltk import bigrams
 from collections import defaultdict, Counter
 from random import choice
 import string, unicodedata, sys
 
 class MarkovGenerator(object):
-	def __init__(self, order=2):
-		self._order = order
+	def __init__(self):
 		self._transition_map = defaultdict(Counter)
 		self._gram_counts = Counter()
 		self._punctuation_table = dict.fromkeys(i for i in range(sys.maxunicode) if unicodedata.category(chr(i)).startswith('P'))
 
 	def ingest_text(self, text):
 		clean_text = text.translate(self._punctuation_table).lower()
-		text_bigrams = ngrams(clean_text.split(), self._order)
+		text_bigrams = bigrams(clean_text.split())
 
 		previous_gram = None
 		for gram in text_bigrams:
