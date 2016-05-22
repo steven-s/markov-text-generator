@@ -12,27 +12,22 @@ Markov chains have many applications as statistical models of real-world process
 """
 
 class MarkovGeneratorTestCase(unittest.TestCase):
-	@classmethod
-	def setUpClass(self):
-		self.generator = MarkovGenerator()
-		self.generator.ingest_text(test_text)
+    @classmethod
+    def setUpClass(self):
+        self.generator = MarkovGenerator()
+        self.generator.ingest_text(test_text)
 
-	def test_generating_transition_map(self):
-		self.assertNotEqual(0, len(self.generator._transition_map))
-		(gram, transitions) = list(self.generator._transition_map.items())[0]
-		for (following_gram, count) in list(transitions.items()):
-			self.assertEqual(gram[-1], following_gram[1])
-			self.assertTrue(count > 0)
+    def test_generating_transition_map(self):
+        self.assertNotEqual(0, len(self.generator._transition_map))
+        (gram, transitions) = list(self.generator._transition_map.items())[0]
+        for (following_gram, count) in list(transitions.items()):
+            self.assertEqual(gram[-1], following_gram[1])
+            self.assertTrue(count > 0)
 
-	def test_generating_bigram_counts(self):
-		self.assertNotEqual(0, len(self.generator._gram_counts))
-		for (gram, count) in list(self.generator._gram_counts.items()):
-			self.assertTrue(count > 0)
-
-	def test_generating_string(self):
-		test_string = self.generator.generate_string(20)
-		self.assertIsNotNone(test_string)
-		self.assertEqual(20, len(test_string.split()))
+    def test_generating_string(self):
+        test_string = self.generator.generate_string(20)
+        self.assertIsNotNone(test_string)
+        self.assertEqual(20, len(test_string.split()))
 
 if __name__ == '__main__':
-	unittest.main()
+    unittest.main()
