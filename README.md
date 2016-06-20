@@ -14,3 +14,7 @@ The constructor provides an optional arg, `ngram_size` (default of 2) to choose 
 ## generate.py
 
 `generate.py` is a utility script to easily build random markov text from the command line
+
+## Requirements
+
+This library uses [NLTK](http://www.nltk.org/)
