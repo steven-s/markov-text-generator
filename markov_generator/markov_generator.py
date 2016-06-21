@@ -3,7 +3,7 @@ from collections import defaultdict, Counter
 from random import choice
 import string, unicodedata, sys
 
-class MarkovGenerator(object):
+class MarkovGenerator:
     def __init__(self, ngram_size=2):
         self._ngram_size = ngram_size
         self._transition_map = defaultdict(Counter)
