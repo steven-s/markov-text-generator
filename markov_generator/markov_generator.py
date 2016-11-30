@@ -13,31 +13,26 @@ class MarkovGenerator:
     def ingest_text(self, text):
         clean_text = text.translate(self._punctuation_table).lower()
         text_ngrams = ngrams(clean_text.split(), self._ngram_size)
-
         previous_gram = None
         for gram in text_ngrams:
             if previous_gram:
                 self._transition_map[previous_gram][gram] += 1
-            if gram not in self._transition_map:
-                self._transition_map[gram] = Counter()
+            previous_gram = gram
 
     def generate_string(self, length=14, use_weighted_transition=False):
         sentence = []
-        start_point = choice(list(self._transition_map.items()))
+        start_point = choice(list(self._transition_map.keys()))
         while len(sentence) < length:
-            (gram, transitions) = start_point
-            for word in gram:
+            for word in list(start_point)[(self._ngram_size - 1):]:
                 sentence.append(word)
+            transitions = self._transition_map[start_point]
             if (len(transitions) > 0):
                 if use_weighted_transition:
-                    weighted_transitions = [gram for gram, count in transitions for i in range(count)]
+                    weighted_transitions = [gram for gram, count in transitions.items() for _ in range(count)]
                     start_point = choice(weighted_transitions)
                 else:
-                    start_point = choice([gram for gram, count in transitions])
+                    start_point = choice(list(transitions.keys()))
             else:
-                start_point = choice(list(self._transition_map.items()))
+                start_point = choice(list(self._transition_map.keys()))
         return ' '.join(sentence[:length])
 
-
-            
-        

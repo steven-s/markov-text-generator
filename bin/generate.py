@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
-from  markov_generator import MarkovGenerator
+from markov_generator import MarkovGenerator
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-v", "--verbose", help="increase output verbosity",

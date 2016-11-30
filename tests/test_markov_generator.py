@@ -21,7 +21,7 @@ class MarkovGeneratorTestCase(unittest.TestCase):
         self.assertNotEqual(0, len(self.generator._transition_map))
         (gram, transitions) = list(self.generator._transition_map.items())[0]
         for (following_gram, count) in list(transitions.items()):
-            self.assertEqual(gram[-1], following_gram[1])
+            self.assertEqual(gram[-1], following_gram[0])
             self.assertTrue(count > 0)
 
     def test_generating_string(self):
